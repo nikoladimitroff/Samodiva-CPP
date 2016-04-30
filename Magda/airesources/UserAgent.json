@@ -1,0 +1,12 @@
+{
+    "header": "Agent Description",
+    "class": "User",
+    "actions": [
+        {"name": "swing", "prior": [] },
+        {"name": "hit", "prior": ["swing"] },
+        {"name": "hug", "prior": [] },
+        {"name": "pet", "prior": [] },
+        {"name": "kiss", "prior": ["hug", "pet"] },
+        {"name": "bore", "prior": [] }
+    ]
+}
