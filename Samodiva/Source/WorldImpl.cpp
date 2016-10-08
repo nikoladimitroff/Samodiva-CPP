@@ -2,11 +2,24 @@
 #include "WorldImpl.h"
 
 #include "AgentImpl.h"
-
+#include "TaskSystem/TaskSystem.h"
 
 namespace Samodiva
 {
 WorldImpl* WorldImpl::s_Instance = nullptr;
+
+void WorldImpl::Initialize()
+{
+	TaskSystem<3> taskSystem;
+	taskSystem.SpawnTask("Dulila0", 0, []() { std::cout << "dulila @ " << std::this_thread::get_id << "\r\n"; });
+	taskSystem.SpawnTask("Dulila0", 0, []() { std::cout << "dulila2 @ " << std::this_thread::get_id << "\r\n"; });
+	taskSystem.SpawnTask("Foodida1", 1, []() { std::cout << "Foodida @ " << std::this_thread::get_id << "\r\n"; });
+	taskSystem.SpawnTask("Dulila1", 1, []() { std::cout << "dulila3 @ " << std::this_thread::get_id << "\r\n"; });
+	taskSystem.SpawnTask("Dulila0", 0, []() { std::cout << "dulila4 @ " << std::this_thread::get_id << "\r\n"; });
+	taskSystem.SpawnTask("Dulila2", 2, []() { std::cout << "dulila5 @ " << std::this_thread::get_id << "\r\n"; });
+	taskSystem.SpawnTask("Dulila2", 2, []() { std::cout << "dulila6 @ " << std::this_thread::get_id << "\r\n"; });
+	taskSystem.SpawnTask("Dulila0", 0, []() { std::cout << "dulila7 @ " << std::this_thread::get_id << "\r\n"; });
+}
 
 Agent* WorldImpl::CreateAgent(const char* agentClass)
 {
@@ -48,5 +61,7 @@ void WorldImpl::LoadDirectory(const char* path)
 
 Samodiva::World* CreateSamodivaWorld()
 {
-	return new Samodiva::WorldImpl();
+	auto world = new Samodiva::WorldImpl();
+	world->Initialize();
+	return world;
 }

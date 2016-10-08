@@ -19,6 +19,12 @@
     <Filter Include="Header Files\Private">
       <UniqueIdentifier>{8e43109f-a54e-4614-af79-def38cd5a92b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TaskSystem">
+      <UniqueIdentifier>{9ef485e3-1c7a-4021-8aab-8a6fa5ce1276}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Private\TaskSystem">
+      <UniqueIdentifier>{454729e3-bb4c-474a-857b-a733e64b0798}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WorldImpl.h">
@@ -56,6 +62,12 @@
     </ClInclude>
     <ClInclude Include="Source\BayesianNetwork.h">
       <Filter>Header Files\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TaskSystem\TaskSystem.h">
+      <Filter>Header Files\Private\TaskSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockingQueue.h">
+      <Filter>Header Files\Private\TaskSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

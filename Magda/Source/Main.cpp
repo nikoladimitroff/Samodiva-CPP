@@ -49,7 +49,7 @@ int main()
 	do
 	{
 		agent->Update(1);
-		std::cout << MoodToName(agent->GetMood()) << std::endl;
+		//std::cout << MoodToName(agent->GetMood()) << std::endl;
 
 		//std::cout << "Enter action: ";
 		//std::string actionName;
@@ -74,8 +74,8 @@ int main()
 	}
 	while (!shouldExit);
 
-	//int x;
-	//std::cin >> x;
+	int x;
+	std::cin >> x;
 
 
 	return 0;

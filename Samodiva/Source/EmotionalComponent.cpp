@@ -23,7 +23,7 @@ namespace Samodiva
 	{
 		// Update expectations
 		m_ExpectedActions.clear();
-		stl::cout << "EXPECTATIONS: " << stl::endl;
+		//stl::cout << "EXPECTATIONS: " << stl::endl;
 		for (auto& partner : m_OtherAgents)
 		{
 			auto description = WorldImpl::GetInstance()->InstantiateAgentDescription(WorldImpl::GetInstance()->FindAgent(partner.Id)->GetClass());
@@ -35,7 +35,7 @@ namespace Samodiva
 					previousActionIndices[j] = partner.PreviousActions[j].Id;
 				}
 				auto expectation = partner.Distribution.Infer(description.Actions[i].Id, &previousActionIndices[0], EMOTIONAL_COMPONENT_MAX_TRACKED_ACTIONS);
-				std::cout << WorldImpl::GetInstance()->GetActionName(description.Actions[i].Id) << " | " << expectation << stl::endl;
+				//std::cout << WorldImpl::GetInstance()->GetActionName(description.Actions[i].Id) << " | " << expectation << stl::endl;
 				if (expectation >= ACTIVATION_EXPECTATION_THRESHOLD)
 				{
 					// TODO: Consider event relevance, impact, source and target
@@ -49,15 +49,15 @@ namespace Samodiva
 				}
 			}
 		}
-		stl::cout << "---: " << stl::endl;
+		//stl::cout << "---: " << stl::endl;
 
 		// TODO: Implement RK4
 		auto acceleration = ComputeActiveForce() * m_EmotionalTensor;
 		m_ActiveEmotion += acceleration * delta;
 		m_Mood += m_ActiveEmotion * delta;
 
-		stl::cout << "Active emotion: (" << m_ActiveEmotion.P << ", " << m_ActiveEmotion.A << ", " << m_ActiveEmotion.D << ")" << stl::endl;
-		stl::cout << "Mood emotion: (" << m_Mood.P << ", " << m_Mood.A << ", " << m_Mood.D << ")" << stl::endl;
+		//stl::cout << "Active emotion: (" << m_ActiveEmotion.P << ", " << m_ActiveEmotion.A << ", " << m_ActiveEmotion.D << ")" << stl::endl;
+		//stl::cout << "Mood emotion: (" << m_Mood.P << ", " << m_Mood.A << ", " << m_Mood.D << ")" << stl::endl;
 		m_CurrentForce = VectorPAD();
 	}
 
@@ -69,17 +69,17 @@ namespace Samodiva
 			auto& action = expected.ActionInstance;
 			if (action.Effect.P * action.Effect.D < 0 || (action.Effect.P == 0 && action.Effect.D == 0))
 			{
-				stl::cout << "EXPECTING action " << WorldImpl::GetInstance()->GetActionName(action.Id) << stl::endl;
+				//stl::cout << "EXPECTING action " << WorldImpl::GetInstance()->GetActionName(action.Id) << stl::endl;
 			}
 			else if (action.Effect.P <= 0 && action.Effect.D <= 0)
 			{
-				stl::cout << "FEARING action " << WorldImpl::GetInstance()->GetActionName(action.Id) << stl::endl;
+				//stl::cout << "FEARING action " << WorldImpl::GetInstance()->GetActionName(action.Id) << stl::endl;
 				cognitiveForce -= action.Effect * expected.Expectation;
 				cognitiveForce += VectorPAD(0, sqrt(expected.Expectation), 0);
 			}
 			else
 			{
-				stl::cout << "HOPING FOR action " << WorldImpl::GetInstance()->GetActionName(action.Id) << stl::endl;
+				//stl::cout << "HOPING FOR action " << WorldImpl::GetInstance()->GetActionName(action.Id) << stl::endl;
 				cognitiveForce += action.Effect * expected.Expectation;
 				cognitiveForce += VectorPAD(0, sqrt(expected.Expectation), 0);
 			}

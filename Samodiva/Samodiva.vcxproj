@@ -165,6 +165,8 @@
     <ClInclude Include="Source\MathHelpers.h" />
     <ClInclude Include="Source\precompiled.h" />
     <ClInclude Include="Source\WorldImpl.h" />
+    <ClInclude Include="Source\TaskSystem\BlockingQueue.h" />
+    <ClInclude Include="Source\TaskSystem\TaskSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\AgentImpl.cpp" />
