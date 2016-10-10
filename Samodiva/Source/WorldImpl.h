@@ -15,7 +15,7 @@ public:
 	{
 		s_Instance = this;
 	}
-	void Initialize();
+	void Initialize(const WorldSettings& settings);
 
 	virtual Agent* CreateAgent(const char* agentClass) override;
 	virtual void Destroy() override;

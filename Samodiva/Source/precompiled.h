@@ -10,3 +10,4 @@
 
 #include <Samodiva/Config.h>
 #include "Declarations.h"
+#include "Logging.h"

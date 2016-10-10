@@ -4,7 +4,31 @@
 
 #include <Samodiva/World.h>
 #include <Samodiva/Agent.h>
+#include <Samodiva/LogHandler.h>
 #include <Samodiva/EmotionalTypes.h>
+
+class StdLogger : public Samodiva::ILogHandler
+{
+public:
+	const char* StringifySeverity(Samodiva::ILogHandler::LogSeverity severity)
+	{
+		switch (severity)
+		{
+		case Samodiva::ILogHandler::LS_Debug: return "Debug";
+		case Samodiva::ILogHandler::LS_Trace: return "Trace";
+		case Samodiva::ILogHandler::LS_Info: return "Info";
+		case Samodiva::ILogHandler::LS_Warning: return "Warning";
+		case Samodiva::ILogHandler::LS_Error: return "Error";
+		default:
+			return "Unknown severity";
+		}
+	}
+
+	virtual void WriteLog(LogSeverity severity, const char* message)
+	{
+		printf("Samodiva [%s]: %s", StringifySeverity(severity), message);
+	}
+};
 
 template<typename T>
 class DestroyDeleter
@@ -37,7 +61,10 @@ std::string MoodToName(Samodiva::Mood mood)
 
 int main()
 {
-	world_ptr world(CreateSamodivaWorld());
+	Samodiva::WorldSettings settings;
+	StdLogger logger;
+	settings.LogHandler = &logger;
+	world_ptr world(CreateSamodivaWorld(settings));
 	world->LoadDirectory("airesources\\*");
 
 	agent_ptr agent(world->CreateAgent("Test"));

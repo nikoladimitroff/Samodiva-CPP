@@ -8,6 +8,15 @@ namespace Samodiva
 
 class Agent;
 
+struct WorldSettings
+{
+	WorldSettings::WorldSettings()
+		: LogHandler(nullptr)
+	{}
+
+	class ILogHandler* LogHandler;
+};
+
 class World
 {
 public:
@@ -25,4 +34,4 @@ public:
 
 }
 
-extern "C" SAMODIVA_API Samodiva::World* CreateSamodivaWorld();
+extern "C" SAMODIVA_API Samodiva::World* CreateSamodivaWorld(const Samodiva::WorldSettings& settings);

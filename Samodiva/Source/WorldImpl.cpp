@@ -7,18 +7,26 @@
 namespace Samodiva
 {
 WorldImpl* WorldImpl::s_Instance = nullptr;
+ILogHandler* g_LogHandler = nullptr;
 
-void WorldImpl::Initialize()
+inline int GetThreadId()
 {
+	return static_cast<int>(std::hash<std::thread::id>()(std::this_thread::get_id()));
+}
+
+void WorldImpl::Initialize(const WorldSettings& settings)
+{
+	g_LogHandler = settings.LogHandler;
+
 	TaskSystem<3> taskSystem;
-	taskSystem.SpawnTask("Dulila0", 0, []() { std::cout << "dulila @ " << std::this_thread::get_id << "\r\n"; });
-	taskSystem.SpawnTask("Dulila0", 0, []() { std::cout << "dulila2 @ " << std::this_thread::get_id << "\r\n"; });
-	taskSystem.SpawnTask("Foodida1", 1, []() { std::cout << "Foodida @ " << std::this_thread::get_id << "\r\n"; });
-	taskSystem.SpawnTask("Dulila1", 1, []() { std::cout << "dulila3 @ " << std::this_thread::get_id << "\r\n"; });
-	taskSystem.SpawnTask("Dulila0", 0, []() { std::cout << "dulila4 @ " << std::this_thread::get_id << "\r\n"; });
-	taskSystem.SpawnTask("Dulila2", 2, []() { std::cout << "dulila5 @ " << std::this_thread::get_id << "\r\n"; });
-	taskSystem.SpawnTask("Dulila2", 2, []() { std::cout << "dulila6 @ " << std::this_thread::get_id << "\r\n"; });
-	taskSystem.SpawnTask("Dulila0", 0, []() { std::cout << "dulila7 @ " << std::this_thread::get_id << "\r\n"; });
+	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_LOG(Info, "dulila @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_LOG(Trace, "dulila2 @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Foodida1", 1, []() { SAMODIVA_LOG(Info, "Foodida @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila1", 1, []() { SAMODIVA_LOG(Error, "dulila3 @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_LOG(Info, "dulila4 @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila2", 2, []() { SAMODIVA_LOG(Warning, "dulila5 @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila2", 2, []() { SAMODIVA_LOG(Debug, "dulila6 @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_LOG(Info, "dulila7 @ %d \r\n", GetThreadId()); });
 }
 
 Agent* WorldImpl::CreateAgent(const char* agentClass)
@@ -59,9 +67,9 @@ void WorldImpl::LoadDirectory(const char* path)
 
 }
 
-Samodiva::World* CreateSamodivaWorld()
+Samodiva::World* CreateSamodivaWorld(const Samodiva::WorldSettings& settings)
 {
 	auto world = new Samodiva::WorldImpl();
-	world->Initialize();
+	world->Initialize(settings);
 	return world;
 }

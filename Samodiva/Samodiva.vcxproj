@@ -156,12 +156,14 @@
     <ClInclude Include="include\Samodiva\Agent.h" />
     <ClInclude Include="include\Samodiva\Config.h" />
     <ClInclude Include="include\Samodiva\EmotionalTypes.h" />
+    <ClInclude Include="include\Samodiva\LogHandler.h" />
     <ClInclude Include="include\Samodiva\World.h" />
     <ClInclude Include="Source\AgentImpl.h" />
     <ClInclude Include="Source\BayesianNetwork.h" />
     <ClInclude Include="Source\Declarations.h" />
     <ClInclude Include="Source\EmotionalComponent.h" />
     <ClInclude Include="Source\Librarian.h" />
+    <ClInclude Include="Source\Logging.h" />
     <ClInclude Include="Source\MathHelpers.h" />
     <ClInclude Include="Source\precompiled.h" />
     <ClInclude Include="Source\WorldImpl.h" />
