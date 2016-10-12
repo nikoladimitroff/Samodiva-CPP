@@ -2,6 +2,7 @@
 #include "WorldImpl.h"
 
 #include "AgentImpl.h"
+#include "MemoryManagement.h"
 #include "TaskSystem/TaskSystem.h"
 
 namespace Samodiva
@@ -14,10 +15,8 @@ inline int GetThreadId()
 	return static_cast<int>(std::hash<std::thread::id>()(std::this_thread::get_id()));
 }
 
-void WorldImpl::Initialize(const WorldSettings& settings)
+void WorldImpl::Initialize(const WorldSettings&)
 {
-	g_LogHandler = settings.LogHandler;
-
 	TaskSystem<3> taskSystem;
 	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_LOG(Info, "dulila @ %d \r\n", GetThreadId()); });
 	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_LOG(Trace, "dulila2 @ %d \r\n", GetThreadId()); });
@@ -69,6 +68,10 @@ void WorldImpl::LoadDirectory(const char* path)
 
 Samodiva::World* CreateSamodivaWorld(const Samodiva::WorldSettings& settings)
 {
+	// Initialize global subsystems:
+	Samodiva::g_LogHandler = settings.LogHandler;
+	Samodiva::g_Allocator = settings.Allocator;
+
 	auto world = new Samodiva::WorldImpl();
 	world->Initialize(settings);
 	return world;

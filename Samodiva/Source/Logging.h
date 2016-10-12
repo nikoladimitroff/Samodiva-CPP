@@ -3,7 +3,10 @@
 #include <stdio.h>
 #include <Samodiva/LogHandler.h>
 
+namespace Samodiva
+{
 extern Samodiva::ILogHandler* g_LogHandler;
+}
 
 #define SAMODIVA_LOG(Severity, Message, ...) \
 	{ \

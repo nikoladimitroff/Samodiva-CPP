@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Samodiva\Agent.h" />
+    <ClInclude Include="include\Samodiva\Allocator.h" />
     <ClInclude Include="include\Samodiva\Config.h" />
     <ClInclude Include="include\Samodiva\EmotionalTypes.h" />
     <ClInclude Include="include\Samodiva\LogHandler.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Source\Librarian.h" />
     <ClInclude Include="Source\Logging.h" />
     <ClInclude Include="Source\MathHelpers.h" />
+    <ClInclude Include="Source\MemoryManagement.h" />
     <ClInclude Include="Source\precompiled.h" />
     <ClInclude Include="Source\WorldImpl.h" />
     <ClInclude Include="Source\TaskSystem\BlockingQueue.h" />
@@ -175,6 +177,7 @@
     <ClCompile Include="Source\BayesianNetwork.cpp" />
     <ClCompile Include="Source\EmotionalComponent.cpp" />
     <ClCompile Include="Source\Librarian.cpp" />
+    <ClCompile Include="Source\MemoryManagement.cpp" />
     <ClCompile Include="Source\WorldImpl.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

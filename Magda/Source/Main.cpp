@@ -4,6 +4,7 @@
 
 #include <Samodiva/World.h>
 #include <Samodiva/Agent.h>
+#include <Samodiva/Allocator.h>
 #include <Samodiva/LogHandler.h>
 #include <Samodiva/EmotionalTypes.h>
 
@@ -27,6 +28,23 @@ public:
 	virtual void WriteLog(LogSeverity severity, const char* message)
 	{
 		printf("Samodiva [%s]: %s", StringifySeverity(severity), message);
+	}
+};
+
+class MallocAllocator : public Samodiva::IAllocator
+{
+public:
+	virtual void* Malloc(size_t size)
+	{
+		return std::malloc(size);
+	}
+	virtual void Free(void* ptr)
+	{
+		std::free(ptr);
+	}
+	virtual void* Realloc(void* ptr, size_t newSize)
+	{
+		return std::realloc(ptr, newSize);
 	}
 };
 
@@ -64,6 +82,8 @@ int main()
 	Samodiva::WorldSettings settings;
 	StdLogger logger;
 	settings.LogHandler = &logger;
+	MallocAllocator allocator;
+	settings.Allocator = &allocator;
 	world_ptr world(CreateSamodivaWorld(settings));
 	world->LoadDirectory("airesources\\*");
 

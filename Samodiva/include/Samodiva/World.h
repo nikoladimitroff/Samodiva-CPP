@@ -11,9 +11,11 @@ class Agent;
 struct WorldSettings
 {
 	WorldSettings::WorldSettings()
-		: LogHandler(nullptr)
+		: Allocator(nullptr)
+		, LogHandler(nullptr)
 	{}
 
+	class IAllocator* Allocator;
 	class ILogHandler* LogHandler;
 };
 
