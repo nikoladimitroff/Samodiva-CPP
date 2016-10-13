@@ -25,6 +25,12 @@
     <Filter Include="Header Files\Private\TaskSystem">
       <UniqueIdentifier>{454729e3-bb4c-474a-857b-a733e64b0798}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\MemoryManagement">
+      <UniqueIdentifier>{8ee7a10c-7d2c-4f3d-b0e5-ee8ef2de015a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Private\MemoryManagement">
+      <UniqueIdentifier>{7a40d52d-0147-4f15-b56a-467fef38c550}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WorldImpl.h">
@@ -78,8 +84,11 @@
     <ClInclude Include="include\Samodiva\Allocator.h">
       <Filter>Header Files\Public</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MemoryManagement.h">
-      <Filter>Header Files\Private</Filter>
+    <ClInclude Include="Source\MemoryManagement\MemoryManagement.h">
+      <Filter>Header Files\Private\MemoryManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MemoryManagement\LinearAllocator.h">
+      <Filter>Header Files\Private\MemoryManagement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -98,8 +107,8 @@
     <ClCompile Include="Source\BayesianNetwork.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MemoryManagement.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Source\MemoryManagement\MemoryManagement.cpp">
+      <Filter>Source Files\MemoryManagement</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
