@@ -2,7 +2,8 @@
 #include "WorldImpl.h"
 
 #include "AgentImpl.h"
-#include "MemoryManagement.h"
+#include "MemoryManagement/MemoryManagement.h"
+#include "MemoryManagement/LinearAllocator.h"
 #include "TaskSystem/TaskSystem.h"
 
 namespace Samodiva
