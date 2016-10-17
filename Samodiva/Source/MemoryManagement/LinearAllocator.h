@@ -5,7 +5,9 @@ class LinearAllocator
 {
 public:
 	LinearAllocator()
-		: m_Marker(m_Buffer)
+		: m_Marker(&m_Buffer[0])
+	{}
+	void Initialize()
 	{}
 	inline void* Malloc(size_t size)
 	{
@@ -13,7 +15,7 @@ public:
 		m_Marker += size;
 		return ptr;
 	}
-	inline void Free(void* ptr)
+	inline void Free(void*)
 	{
 	}
 	inline void* Realloc(void* ptr, size_t newSize)
@@ -29,6 +31,6 @@ public:
 	}
 
 private:
-	const char m_Buffer[Bytes];
-	const char* m_Marker;
+	char m_Buffer[Bytes];
+	char* m_Marker;
 };

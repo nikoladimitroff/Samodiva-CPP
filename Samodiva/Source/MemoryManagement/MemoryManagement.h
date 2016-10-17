@@ -1,4 +1,6 @@
 #include <Samodiva/Allocator.h>
+#include "StlAllocator.h"
+#include "LinearAllocator.h"
 
 namespace Samodiva
 {

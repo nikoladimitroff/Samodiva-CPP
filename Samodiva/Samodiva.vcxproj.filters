@@ -90,6 +90,9 @@
     <ClInclude Include="Source\MemoryManagement\LinearAllocator.h">
       <Filter>Header Files\Private\MemoryManagement</Filter>
     </ClInclude>
+    <ClInclude Include="Source\MemoryManagement\StlAllocator.h">
+      <Filter>Header Files\Private\MemoryManagement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\WorldImpl.cpp">

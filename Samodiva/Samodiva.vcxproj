@@ -111,6 +111,7 @@
       <PreprocessorDefinitions>SAMODIVA_EXPORTS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -168,6 +169,7 @@
     <ClInclude Include="Source\MathHelpers.h" />
     <ClInclude Include="Source\MemoryManagement\LinearAllocator.h" />
     <ClInclude Include="Source\MemoryManagement\MemoryManagement.h" />
+    <ClInclude Include="Source\MemoryManagement\StlAllocator.h" />
     <ClInclude Include="Source\precompiled.h" />
     <ClInclude Include="Source\WorldImpl.h" />
     <ClInclude Include="Source\TaskSystem\BlockingQueue.h" />
