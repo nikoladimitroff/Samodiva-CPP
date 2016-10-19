@@ -22,6 +22,7 @@ public:
 	{
 		auto copy = Malloc(newSize);
 		std::memcpy(copy, ptr, newSize);
+		Free(ptr);
 		return copy;
 	}
 
@@ -30,7 +31,33 @@ public:
 		m_Marker = ptr;
 	}
 
+	// Used to reset 
+	struct Scope
+	{
+		Scope(LinearAllocator* allocator)
+			: m_Allocator(allocator)
+			, m_Marker(allocator->GetMarker())
+		{}
+		Scope(const Scope&) = delete;
+		Scope& operator=(const Scope&) = delete;
+		~Scope()
+		{
+			allocator->Reset(m_Marker);
+		}
+	private:
+		LinearAllocator* m_Allocator;
+		void* m_Marker;
+	};
+	inline Scope ScopeNow()
+	{
+		return Scope(this);
+	}
 private:
 	char m_Buffer[Bytes];
 	char* m_Marker;
+
+	inline void* GetMarker() const
+	{
+		return m_Marker;
+	}
 };
