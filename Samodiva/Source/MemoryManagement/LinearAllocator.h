@@ -61,3 +61,28 @@ private:
 		return m_Marker;
 	}
 };
+
+template<size_t Capacity>
+class ThreadLocalLinearAllocator
+{
+public:
+	inline void Initialize() {}
+	inline void* Malloc(size_t size)
+	{
+		return tls_Alloc.Malloc(size);
+	}
+	inline void Free(void* ptr)
+	{
+		return tls_Alloc.Free(ptr);
+	}
+	inline void* Realloc(void* ptr, size_t newSize)
+	{
+		return tls_Alloc.Realloc(ptr, newSize);
+	}
+	static inline LinearAllocator<Capacity>& GetTlsAllocator()
+	{
+		return tls_Alloc;
+	}
+private:
+	thread_local static LinearAllocator<Capacity> tls_Alloc;
+};
