@@ -8,7 +8,7 @@ Samodiva::IAllocator* g_Allocator = nullptr;
 
 void* operator new(std::size_t size)
 {
-	return Samodiva::g_Allocator->Malloc(size);
+	return Samodiva::g_Allocator->Malloc(size, 0);
 }
 void operator delete(void* ptr)
 {
@@ -16,7 +16,7 @@ void operator delete(void* ptr)
 }
 void* operator new[](std::size_t size)
 {
-	return Samodiva::g_Allocator->Malloc(size);
+	return Samodiva::g_Allocator->Malloc(size, 0);
 }
 void operator delete[](void* ptr)
 {

@@ -34,7 +34,7 @@ public:
 class MallocAllocator : public Samodiva::IAllocator
 {
 public:
-	virtual void* Malloc(size_t size)
+	virtual void* Malloc(size_t size, unsigned alignment)
 	{
 		return std::malloc(size);
 	}
