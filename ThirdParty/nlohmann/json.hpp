@@ -1,3 +1,5 @@
+// Samodiva: got rid of all except specifiers.
+
 /*!
 @mainpage
 
@@ -673,13 +675,13 @@ class basic_json
         number_float_t number_float;
 
         /// default constructor (for null values)
-        json_value() noexcept = default;
+        json_value()  = default;
         /// constructor for booleans
-        json_value(boolean_t v) noexcept : boolean(v) {}
+        json_value(boolean_t v)  : boolean(v) {}
         /// constructor for numbers (integer)
-        json_value(number_integer_t v) noexcept : number_integer(v) {}
+        json_value(number_integer_t v)  : number_integer(v) {}
         /// constructor for numbers (floating-point)
-        json_value(number_float_t v) noexcept : number_float(v) {}
+        json_value(number_float_t v)  : number_float(v) {}
         /// constructor for empty values of a given type
         json_value(value_t t)
         {
@@ -896,7 +898,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    basic_json() noexcept = default;
+    basic_json()  = default;
 
     /*!
     @brief create a null object (explicitly)
@@ -917,7 +919,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    basic_json(std::nullptr_t) noexcept
+    basic_json(std::nullptr_t) 
         : basic_json(value_t::null)
     {}
 
@@ -1236,7 +1238,7 @@ class basic_json
                  std::is_constructible<number_integer_t, CompatibleNumberIntegerType>::value and
                  std::numeric_limits<CompatibleNumberIntegerType>::is_integer, CompatibleNumberIntegerType>::type
              = 0>
-    basic_json(const CompatibleNumberIntegerType val) noexcept
+    basic_json(const CompatibleNumberIntegerType val) 
         : m_type(value_t::number_integer),
           m_value(static_cast<number_integer_t>(val))
     {}
@@ -1311,7 +1313,7 @@ class basic_json
                  std::is_constructible<number_float_t, CompatibleNumberFloatType>::value and
                  std::is_floating_point<CompatibleNumberFloatType>::value>::type
              >
-    basic_json(const CompatibleNumberFloatType val) noexcept
+    basic_json(const CompatibleNumberFloatType val) 
         : basic_json(number_float_t(val))
     {}
 
@@ -1758,7 +1760,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    basic_json(basic_json&& other) noexcept
+    basic_json(basic_json&& other) 
         : m_type(std::move(other.m_type)),
           m_value(std::move(other.m_value))
     {
@@ -1788,12 +1790,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    reference& operator=(basic_json other) noexcept (
-        std::is_nothrow_move_constructible<value_t>::value and
-        std::is_nothrow_move_assignable<value_t>::value and
-        std::is_nothrow_move_constructible<json_value>::value and
-        std::is_nothrow_move_assignable<json_value>::value
-    )
+    reference& operator=(basic_json other)
     {
         using std::swap;
         swap(m_type, other.m_type);
@@ -1914,7 +1911,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    value_t type() const noexcept
+    value_t type() const 
     {
         return m_type;
     }
@@ -1935,7 +1932,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    bool is_primitive() const noexcept
+    bool is_primitive() const 
     {
         return is_null() or is_string() or is_boolean() or is_number();
     }
@@ -1955,7 +1952,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    bool is_structured() const noexcept
+    bool is_structured() const 
     {
         return is_array() or is_object();
     }
@@ -1974,7 +1971,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    bool is_null() const noexcept
+    bool is_null() const 
     {
         return m_type == value_t::null;
     }
@@ -1993,7 +1990,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    bool is_boolean() const noexcept
+    bool is_boolean() const 
     {
         return m_type == value_t::boolean;
     }
@@ -2017,7 +2014,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    bool is_number() const noexcept
+    bool is_number() const 
     {
         return is_number_integer() or is_number_float();
     }
@@ -2040,7 +2037,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    bool is_number_integer() const noexcept
+    bool is_number_integer() const 
     {
         return m_type == value_t::number_integer;
     }
@@ -2063,7 +2060,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    bool is_number_float() const noexcept
+    bool is_number_float() const 
     {
         return m_type == value_t::number_float;
     }
@@ -2082,7 +2079,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    bool is_object() const noexcept
+    bool is_object() const 
     {
         return m_type == value_t::object;
     }
@@ -2101,7 +2098,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    bool is_array() const noexcept
+    bool is_array() const 
     {
         return m_type == value_t::array;
     }
@@ -2120,7 +2117,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    bool is_string() const noexcept
+    bool is_string() const 
     {
         return m_type == value_t::string;
     }
@@ -2144,7 +2141,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    bool is_discarded() const noexcept
+    bool is_discarded() const 
     {
         return m_type == value_t::discarded;
     }
@@ -2164,7 +2161,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    operator value_t() const noexcept
+    operator value_t() const 
     {
         return m_type;
     }
@@ -2354,73 +2351,73 @@ class basic_json
     }
 
     /// get a pointer to the value (object)
-    object_t* get_impl_ptr(object_t*) noexcept
+    object_t* get_impl_ptr(object_t*) 
     {
         return is_object() ? m_value.object : nullptr;
     }
 
     /// get a pointer to the value (object)
-    const object_t* get_impl_ptr(const object_t*) const noexcept
+    const object_t* get_impl_ptr(const object_t*) const 
     {
         return is_object() ? m_value.object : nullptr;
     }
 
     /// get a pointer to the value (array)
-    array_t* get_impl_ptr(array_t*) noexcept
+    array_t* get_impl_ptr(array_t*) 
     {
         return is_array() ? m_value.array : nullptr;
     }
 
     /// get a pointer to the value (array)
-    const array_t* get_impl_ptr(const array_t*) const noexcept
+    const array_t* get_impl_ptr(const array_t*) const 
     {
         return is_array() ? m_value.array : nullptr;
     }
 
     /// get a pointer to the value (string)
-    string_t* get_impl_ptr(string_t*) noexcept
+    string_t* get_impl_ptr(string_t*) 
     {
         return is_string() ? m_value.string : nullptr;
     }
 
     /// get a pointer to the value (string)
-    const string_t* get_impl_ptr(const string_t*) const noexcept
+    const string_t* get_impl_ptr(const string_t*) const 
     {
         return is_string() ? m_value.string : nullptr;
     }
 
     /// get a pointer to the value (boolean)
-    boolean_t* get_impl_ptr(boolean_t*) noexcept
+    boolean_t* get_impl_ptr(boolean_t*) 
     {
         return is_boolean() ? &m_value.boolean : nullptr;
     }
 
     /// get a pointer to the value (boolean)
-    const boolean_t* get_impl_ptr(const boolean_t*) const noexcept
+    const boolean_t* get_impl_ptr(const boolean_t*) const 
     {
         return is_boolean() ? &m_value.boolean : nullptr;
     }
 
     /// get a pointer to the value (integer number)
-    number_integer_t* get_impl_ptr(number_integer_t*) noexcept
+    number_integer_t* get_impl_ptr(number_integer_t*) 
     {
         return is_number_integer() ? &m_value.number_integer : nullptr;
     }
 
     /// get a pointer to the value (integer number)
-    const number_integer_t* get_impl_ptr(const number_integer_t*) const noexcept
+    const number_integer_t* get_impl_ptr(const number_integer_t*) const 
     {
         return is_number_integer() ? &m_value.number_integer : nullptr;
     }
 
     /// get a pointer to the value (floating-point number)
-    number_float_t* get_impl_ptr(number_float_t*) noexcept
+    number_float_t* get_impl_ptr(number_float_t*) 
     {
         return is_number_float() ? &m_value.number_float : nullptr;
     }
 
     /// get a pointer to the value (floating-point number)
-    const number_float_t* get_impl_ptr(const number_float_t*) const noexcept
+    const number_float_t* get_impl_ptr(const number_float_t*) const 
     {
         return is_number_float() ? &m_value.number_float : nullptr;
     }
@@ -2531,7 +2528,7 @@ class basic_json
              std::enable_if<
                  std::is_pointer<PointerType>::value
                  , int>::type = 0>
-    PointerType get() noexcept
+    PointerType get() 
     {
         // delegate the call to get_ptr
         return get_ptr<PointerType>();
@@ -2545,7 +2542,7 @@ class basic_json
              std::enable_if<
                  std::is_pointer<PointerType>::value
                  , int>::type = 0>
-    const PointerType get() const noexcept
+    const PointerType get() const 
     {
         // delegate the call to get_ptr
         return get_ptr<PointerType>();
@@ -2580,7 +2577,7 @@ class basic_json
              std::enable_if<
                  std::is_pointer<PointerType>::value
                  , int>::type = 0>
-    PointerType get_ptr() noexcept
+    PointerType get_ptr() 
     {
         // delegate the call to get_impl_ptr<>()
         return get_impl_ptr(static_cast<PointerType>(nullptr));
@@ -2595,7 +2592,7 @@ class basic_json
                  std::is_pointer<PointerType>::value
                  and std::is_const<typename std::remove_pointer<PointerType>::type>::value
                  , int>::type = 0>
-    const PointerType get_ptr() const noexcept
+    const PointerType get_ptr() const 
     {
         // delegate the call to get_impl_ptr<>() const
         return get_impl_ptr(static_cast<const PointerType>(nullptr));
@@ -4046,7 +4043,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    bool empty() const noexcept
+    bool empty() const 
     {
         switch (m_type)
         {
@@ -4104,7 +4101,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    size_type size() const noexcept
+    size_type size() const 
     {
         switch (m_type)
         {
@@ -4166,7 +4163,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    size_type max_size() const noexcept
+    size_type max_size() const 
     {
         switch (m_type)
         {
@@ -4225,7 +4222,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    void clear() noexcept
+    void clear() 
     {
         switch (m_type)
         {
@@ -4638,12 +4635,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    void swap(reference other) noexcept (
-        std::is_nothrow_move_constructible<value_t>::value and
-        std::is_nothrow_move_assignable<value_t>::value and
-        std::is_nothrow_move_constructible<json_value>::value and
-        std::is_nothrow_move_assignable<json_value>::value
-    )
+    void swap(reference other)
     {
         std::swap(m_type, other.m_type);
         std::swap(m_value, other.m_value);
@@ -4817,7 +4809,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    friend bool operator==(const_reference lhs, const_reference rhs) noexcept
+    friend bool operator==(const_reference lhs, const_reference rhs) 
     {
         const auto lhs_type = lhs.type();
         const auto rhs_type = rhs.type();
@@ -4895,7 +4887,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    friend bool operator==(const_reference v, std::nullptr_t) noexcept
+    friend bool operator==(const_reference v, std::nullptr_t) 
     {
         return v.is_null();
     }
@@ -4904,7 +4896,7 @@ class basic_json
     @brief comparison: equal
     @copydoc operator==(const_reference, std::nullptr_t)
     */
-    friend bool operator==(std::nullptr_t, const_reference v) noexcept
+    friend bool operator==(std::nullptr_t, const_reference v) 
     {
         return v.is_null();
     }
@@ -4925,7 +4917,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    friend bool operator!=(const_reference lhs, const_reference rhs) noexcept
+    friend bool operator!=(const_reference lhs, const_reference rhs) 
     {
         return not (lhs == rhs);
     }
@@ -4948,7 +4940,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    friend bool operator!=(const_reference v, std::nullptr_t) noexcept
+    friend bool operator!=(const_reference v, std::nullptr_t) 
     {
         return not v.is_null();
     }
@@ -4957,7 +4949,7 @@ class basic_json
     @brief comparison: not equal
     @copydoc operator!=(const_reference, std::nullptr_t)
     */
-    friend bool operator!=(std::nullptr_t, const_reference v) noexcept
+    friend bool operator!=(std::nullptr_t, const_reference v) 
     {
         return not v.is_null();
     }
@@ -4986,7 +4978,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    friend bool operator<(const_reference lhs, const_reference rhs) noexcept
+    friend bool operator<(const_reference lhs, const_reference rhs) 
     {
         const auto lhs_type = lhs.type();
         const auto rhs_type = rhs.type();
@@ -5069,7 +5061,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    friend bool operator<=(const_reference lhs, const_reference rhs) noexcept
+    friend bool operator<=(const_reference lhs, const_reference rhs) 
     {
         return not (rhs < lhs);
     }
@@ -5091,7 +5083,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    friend bool operator>(const_reference lhs, const_reference rhs) noexcept
+    friend bool operator>(const_reference lhs, const_reference rhs) 
     {
         return not (lhs <= rhs);
     }
@@ -5113,7 +5105,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    friend bool operator>=(const_reference lhs, const_reference rhs) noexcept
+    friend bool operator>=(const_reference lhs, const_reference rhs) 
     {
         return not (lhs < rhs);
     }
@@ -5326,7 +5318,7 @@ class basic_json
 
     @complexity Linear in the length of string @a s.
     */
-    static std::size_t extra_space(const string_t& s) noexcept
+    static std::size_t extra_space(const string_t& s) 
     {
         std::size_t result = 0;
 
@@ -5375,7 +5367,7 @@ class basic_json
 
     @complexity Linear in the length of string @a s.
     */
-    static string_t escape_string(const string_t& s) noexcept
+    static string_t escape_string(const string_t& s) 
     {
         const auto space = extra_space(s);
         if (space == 0)
@@ -5924,17 +5916,12 @@ class basic_json
         }
 
         /// copy constructor
-        const_iterator(const const_iterator& other) noexcept
+        const_iterator(const const_iterator& other) 
             : m_object(other.m_object), m_it(other.m_it)
         {}
 
         /// copy assignment
-        const_iterator& operator=(const_iterator other) noexcept(
-            std::is_nothrow_move_constructible<pointer>::value and
-            std::is_nothrow_move_assignable<pointer>::value and
-            std::is_nothrow_move_constructible<internal_iterator>::value and
-            std::is_nothrow_move_assignable<internal_iterator>::value
-        )
+        const_iterator& operator=(const_iterator other)
         {
             std::swap(m_object, other.m_object);
             std::swap(m_it, other.m_it);
@@ -6402,22 +6389,17 @@ class basic_json
         iterator() = default;
 
         /// constructor for a given JSON instance
-        iterator(pointer object) noexcept
+        iterator(pointer object) 
             : base_iterator(object)
         {}
 
         /// copy constructor
-        iterator(const iterator& other) noexcept
+        iterator(const iterator& other) 
             : base_iterator(other)
         {}
 
         /// copy assignment
-        iterator& operator=(iterator other) noexcept(
-            std::is_nothrow_move_constructible<pointer>::value and
-            std::is_nothrow_move_assignable<pointer>::value and
-            std::is_nothrow_move_constructible<internal_iterator>::value and
-            std::is_nothrow_move_assignable<internal_iterator>::value
-        )
+        iterator& operator=(iterator other)
         {
             base_iterator::operator=(other);
             return *this;
@@ -6664,7 +6646,7 @@ class basic_json
         using lexer_char_t = unsigned char;
 
         /// constructor with a given buffer
-        explicit lexer(const string_t& s) noexcept
+        explicit lexer(const string_t& s) 
             : m_stream(nullptr), m_buffer(s)
         {
             m_content = reinterpret_cast<const lexer_char_t*>(s.c_str());
@@ -6674,7 +6656,7 @@ class basic_json
         }
 
         /// constructor with a given stream
-        explicit lexer(std::istream* s) noexcept
+        explicit lexer(std::istream* s) 
             : m_stream(s), m_buffer()
         {
             assert(m_stream != nullptr);
@@ -6822,7 +6804,7 @@ class basic_json
 
         @return the class of the next token read from the buffer
         */
-        token_type scan() noexcept
+        token_type scan() 
         {
             // pointer for backtracking information
             m_marker = nullptr;
@@ -7619,7 +7601,7 @@ basic_json_parser_64:
         }
 
         /// append data from the stream to the internal buffer
-        void yyfill() noexcept
+        void yyfill() 
         {
             if (m_stream == nullptr or not * m_stream)
             {
@@ -7645,7 +7627,7 @@ basic_json_parser_64:
         }
 
         /// return string representation of last read token
-        string_t get_token() const noexcept
+        string_t get_token() const 
         {
             assert(m_start != nullptr);
             return string_t(reinterpret_cast<typename string_t::const_pointer>(m_start),
@@ -8185,10 +8167,7 @@ namespace std
 */
 template <>
 inline void swap(nlohmann::json& j1,
-                 nlohmann::json& j2) noexcept(
-                     is_nothrow_move_constructible<nlohmann::json>::value and
-                     is_nothrow_move_assignable<nlohmann::json>::value
-                 )
+                 nlohmann::json& j2)
 {
     j1.swap(j2);
 }
