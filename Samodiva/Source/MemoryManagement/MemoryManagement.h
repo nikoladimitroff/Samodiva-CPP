@@ -110,4 +110,71 @@ namespace Samodiva
 		auto ptr = new(TempAllocator::GetTlsAllocator().Malloc(sizeof(T)) T(std::forward<Args>(args)...));
 		return TmpSharedPtr<T>(ptr);
 	}
+
+
+	class DefaultAllocator
+	{
+	public:
+		void Initialize()
+		{}
+		inline void* Malloc(size_t size)
+		{
+			return g_Allocator->Malloc(size, 0);
+		}
+		inline void Free(void* ptr)
+		{
+			return g_Allocator->Free(ptr);
+		}
+		inline void* Realloc(void* ptr, size_t newSize)
+		{
+			return g_Allocator->Realloc(ptr, newSize);
+		}
+	};
+
+
+	template<typename T>
+	struct StdDeleter
+	{
+		void operator()(T* ptr)
+		{
+			ptr->~T();
+			TempAllocator::GetTlsAllocator().Free(ptr);
+		}
+	};
+	template<typename T>
+	struct StdDeleterArray
+	{
+		void operator()(T* ptr)
+		{
+			SamodivaDestroyArray(ptr);
+		}
+	};
+
+	template<typename T>
+	using StdVector = std::vector<T, StlAllocatorTemplate<DefaultAllocator, T>>;
+	using StdString = std::basic_string<char, std::char_traits<char>, StlAllocatorTemplate<DefaultAllocator, char>>;
+	template<typename T>
+	using StdUniquePtr = std::unique_ptr<T, StdDeleter<T>>;
+	template<class T>
+	using StdUniqueArray = std::unique_ptr<T[], StdDeleterArray<T>>;
+	template<typename T>
+	using StdSharedPtr = std::shared_ptr<T>;
+	template<typename T, typename... Args>
+	inline StdUniquePtr<T> MakeUniqueStd(Args&&... args)
+	{
+		auto ptr = new(g_Allocator->Malloc(sizeof(T)) T(std::forward<Args>(args)...));
+		return StdUniquePtr<T>(ptr);
+	}
+	template<typename T, typename... Args>
+	inline StdUniqueArray<T> MakeUniqueArrayStd(Args&&... args)
+	{
+		auto ptr = new(g_Allocator->Malloc(sizeof(T)) T(std::forward<Args>(args)...));
+		return TmpUniqueArray<T>(ptr);
+	}
+	template<typename T, typename... Args>
+	inline StdSharedPtr<T> MakeSharedStd(Args&&... args)
+	{
+		auto ptr = new(g_Allocator->Malloc(sizeof(T)) T(std::forward<Args>(args)...));
+		return StdSharedPtr<T>(ptr);
+	}
 }
