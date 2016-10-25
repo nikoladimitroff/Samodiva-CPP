@@ -10,4 +10,5 @@
 
 #include <Samodiva/Config.h>
 #include "Declarations.h"
+#include "MemoryManagement/MemoryManagement.h"
 #include "Logging.h"

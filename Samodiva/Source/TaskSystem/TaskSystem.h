@@ -15,6 +15,7 @@ public:
 		return m_Name;
 	}
 
+	virtual ~Task() {}
 	virtual void Execute() = 0;
 
 protected:
@@ -43,7 +44,7 @@ public:
 private:
 	Functor m_Functor;
 };
-using TaskPtr = std::unique_ptr<Task>;
+using TaskPtr = StdUniquePtr<Task>;
 
 class TaskChannel
 {
@@ -97,11 +98,11 @@ public:
 	template<typename Functor>
 	inline void SpawnTask(const char* name, ChannelId channel, Functor f)
 	{
-		m_Channels[channel].Enqueue(std::make_unique<SimpleTask<Functor>>(name, f));
+		m_Channels[channel].Enqueue(MakeUniqueStd<SimpleTask<Functor>>(name, f));
 	}
 
 private:
-	std::vector<std::thread> m_ThreadPool;
+	StdVector<std::thread> m_ThreadPool;
 	std::array<TaskChannel, ChannelCount> m_Channels;
 
 	// Spawn a thread for each channel as of now

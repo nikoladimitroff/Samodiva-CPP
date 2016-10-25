@@ -1,12 +1,14 @@
 #pragma once
 #include <mutex>
-#include <deque>
+
+namespace Samodiva
+{
 
 template<class T>
 class BlockingQueue
 {
 private:
-	std::deque<T> m_Queue;
+	StdDeque<T> m_Queue;
 	std::condition_variable m_Condition;
 	std::mutex m_Mutex;
 public:
@@ -28,3 +30,5 @@ public:
 		return first;
 	}
 };
+
+}

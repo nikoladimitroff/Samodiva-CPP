@@ -48,16 +48,8 @@ namespace Samodiva
 			BayesianNetwork Distribution;
 			Action PreviousActions[EMOTIONAL_COMPONENT_MAX_TRACKED_ACTIONS];
 		};
-		stl::vector<InteractingAgent> m_OtherAgents;
-
-		/*struct ActionHasher
-		{
-			size_t operator()(const Action& action)
-			{
-				return std::_Bitwise_hash
-			}
-		};*/
-		stl::vector<ExpectedAction> m_ExpectedActions;
+		StdVector<InteractingAgent> m_OtherAgents;
+		StdVector<ExpectedAction> m_ExpectedActions;
 
 		void CheckExpectations(const Action& action);
 	};
