@@ -38,21 +38,11 @@ public:
 	virtual void* Malloc(size_t size, unsigned alignment)
 	{
 		auto ptr = std::malloc(size);
-		auto Log = &::OutputDebugStringA;
-		Log("Allocating ");
-		Log(std::to_string(size).c_str());
-		Log(" bytes at address ");
-		Log(std::to_string((unsigned long)ptr).c_str());
-		Log("\r\n");
 		return ptr;
 	}
 	virtual void Free(void* ptr)
 	{
 		std::free(ptr);
-		auto Log = &::OutputDebugStringA;
-		Log("Freeing ");
-		Log(std::to_string((unsigned long)ptr).c_str());
-		Log("\r\n");
 	}
 	virtual void* Realloc(void* ptr, size_t newSize)
 	{
