@@ -4,6 +4,7 @@
 namespace Samodiva
 {
 Samodiva::IAllocator* g_Allocator = nullptr;
+thread_local Samodiva::LinearAllocator<tls_TempAllocatorSize> Samodiva::TempAllocator::tls_Alloc;
 }
 
 void* operator new(std::size_t size)

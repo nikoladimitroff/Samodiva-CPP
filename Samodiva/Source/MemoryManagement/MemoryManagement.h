@@ -1,4 +1,5 @@
 #pragma once
+#include <deque>
 #include <memory>
 #include <vector>
 #include <string>
@@ -28,8 +29,8 @@ namespace Samodiva
 
 	namespace
 	{
-		constexpr size_t tlsAllocatorSize = 4 * 1024 * 1024; // 4MB
-		using TempAllocator = ThreadLocalLinearAllocator<tlsAllocatorSize>;
+		constexpr size_t tls_TempAllocatorSize = 4 * 1024 * 1024; // 4MB
+		using TempAllocator = ThreadLocalLinearAllocator<tls_TempAllocatorSize>;
 	}
 	using ArraySizeType = unsigned;
 	template<typename T>
@@ -65,18 +66,32 @@ namespace Samodiva
 		}
 	}
 
-	template<typename T>
-	struct TmpDeleter
+	template<typename Base>
+	struct TempDeleter
 	{
-		void operator()(T* ptr)
+		TempDeleter() {}
+		template<typename Derived>
+		TempDeleter(const TempDeleter<Derived>&)
 		{
-			ptr->~T();
+			static_assert(std::is_base_of<Base, Derived>::value, "Only inherited casting is allowed");
+			static_assert(std::has_virtual_destructor<Base>::value, "Type needs virtual destructor!");
+		}
+		void operator()(Base* ptr)
+		{
+			ptr->~Base();
 			TempAllocator::GetTlsAllocator().Free(ptr);
 		}
 	};
 	template<typename T>
-	struct TmpDeleterArray
+	struct TempDeleterArray
 	{
+		TempDeleterArray() {}
+		template<typename Derived>
+		TempDeleterArray(const TempDeleterArray<Derived>&)
+		{
+			static_assert(std::is_base_of<Base, Derived>::value, "Only inherited casting is allowed");
+			static_assert(std::has_virtual_destructor<Base>::value, "Type needs virtual destructor!");
+		}
 		void operator()(T* ptr)
 		{
 			SamodivaDestroyArray(ptr);
@@ -84,31 +99,31 @@ namespace Samodiva
 	};
 
 	template<typename T>
-	using TmpVector = std::vector<T, StlAllocatorTemplate<TempAllocator, T>>;
-	using TmpString = std::basic_string<char, std::char_traits<char>, StlAllocatorTemplate<TempAllocator, char>>;
+	using TempVector = std::vector<T, StlAllocatorTemplate<TempAllocator, T>>;
+	using TempString = std::basic_string<char, std::char_traits<char>, StlAllocatorTemplate<TempAllocator, char>>;
 	template<typename T>
-	using TmpUniquePtr = std::unique_ptr<T, TmpDeleter<T>>;
+	using TempUniquePtr = std::unique_ptr<T, TempDeleter<T>>;
 	template<class T>
-	using TmpUniqueArray = std::unique_ptr<T[], TmpDeleterArray<T>>;
+	using TempUniqueArray = std::unique_ptr<T[], TempDeleterArray<T>>;
 	template<typename T>
-	using TmpSharedPtr = std::shared_ptr<T>;
+	using TempSharedPtr = std::shared_ptr<T>;
 	template<typename T, typename... Args>
-	inline TmpUniquePtr<T> MakeUniqueTmp(Args&&... args)
+	inline TempUniquePtr<T> MakeUniqueTemp(Args&&... args)
 	{
 		auto ptr = new(TempAllocator::GetTlsAllocator().Malloc(sizeof(T)) T(std::forward<Args>(args)...));
-		return TmpUniquePtr<T>(ptr);
+		return TempUniquePtr<T>(ptr);
 	}
 	template<typename T, typename... Args>
-	inline TmpUniqueArray<T> MakeUniqueArrayTmp(Args&&... args)
+	inline TempUniqueArray<T> MakeUniqueArrayTemp(Args&&... args)
 	{
 		auto ptr = new(TempAllocator::GetTlsAllocator().Malloc(sizeof(T)) T(std::forward<Args>(args)...));
-		return TmpUniqueArray<T>(ptr);
+		return TempUniqueArray<T>(ptr);
 	}
 	template<typename T, typename... Args>
-	inline TmpSharedPtr<T> MakeSharedTmp(Args&&... args)
+	inline TempSharedPtr<T> MakeSharedTemp(Args&&... args)
 	{
 		auto ptr = new(TempAllocator::GetTlsAllocator().Malloc(sizeof(T)) T(std::forward<Args>(args)...));
-		return TmpSharedPtr<T>(ptr);
+		return TempSharedPtr<T>(ptr);
 	}
 
 
@@ -132,19 +147,33 @@ namespace Samodiva
 	};
 
 
-	template<typename T>
+	template<typename Base>
 	struct StdDeleter
 	{
-		void operator()(T* ptr)
+		StdDeleter() {}
+		template<typename Derived>
+		StdDeleter(const StdDeleter<Derived>&)
 		{
-			ptr->~T();
+			static_assert(std::is_base_of<Base, Derived>::value, "Only inherited casting is allowed");
+			static_assert(std::has_virtual_destructor<Base>::value, "Type needs virtual destructor!");
+		}
+		void operator()(Base* ptr)
+		{
+			ptr->~Base();
 			TempAllocator::GetTlsAllocator().Free(ptr);
 		}
 	};
-	template<typename T>
+	template<typename Base>
 	struct StdDeleterArray
 	{
-		void operator()(T* ptr)
+		StdDeleterArray() {}
+		template<typename Derived>
+		StdDeleterArray(const StdDeleterArray<Derived>&)
+		{
+			static_assert(std::is_base_of<Base, Derived>::value, "Only inherited casting is allowed");
+			static_assert(std::has_virtual_destructor<Base>::value, "Type needs virtual destructor!");
+		}
+		void operator()(Base* ptr)
 		{
 			SamodivaDestroyArray(ptr);
 		}
@@ -152,6 +181,8 @@ namespace Samodiva
 
 	template<typename T>
 	using StdVector = std::vector<T, StlAllocatorTemplate<DefaultAllocator, T>>;
+	template<typename T>
+	using StdDeque = std::deque<T, StlAllocatorTemplate<DefaultAllocator, T>>;
 	using StdString = std::basic_string<char, std::char_traits<char>, StlAllocatorTemplate<DefaultAllocator, char>>;
 	template<typename T>
 	using StdUniquePtr = std::unique_ptr<T, StdDeleter<T>>;
@@ -162,19 +193,19 @@ namespace Samodiva
 	template<typename T, typename... Args>
 	inline StdUniquePtr<T> MakeUniqueStd(Args&&... args)
 	{
-		auto ptr = new(g_Allocator->Malloc(sizeof(T)) T(std::forward<Args>(args)...));
+		auto ptr = new (g_Allocator->Malloc(sizeof(T), alignof(T))) T(std::forward<Args>(args)...);
 		return StdUniquePtr<T>(ptr);
 	}
 	template<typename T, typename... Args>
 	inline StdUniqueArray<T> MakeUniqueArrayStd(Args&&... args)
 	{
-		auto ptr = new(g_Allocator->Malloc(sizeof(T)) T(std::forward<Args>(args)...));
-		return TmpUniqueArray<T>(ptr);
+		auto ptr = new (g_Allocator->Malloc(sizeof(T), alignof(T))) T(std::forward<Args>(args)...);
+		return StdUniqueArray<T>(ptr);
 	}
 	template<typename T, typename... Args>
 	inline StdSharedPtr<T> MakeSharedStd(Args&&... args)
 	{
-		auto ptr = new(g_Allocator->Malloc(sizeof(T)) T(std::forward<Args>(args)...));
+		auto ptr = new (g_Allocator->Malloc(sizeof(T), alignof(T))) T(std::forward<Args>(args)...);
 		return StdSharedPtr<T>(ptr);
 	}
 }

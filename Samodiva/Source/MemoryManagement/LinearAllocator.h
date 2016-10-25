@@ -1,5 +1,8 @@
 #pragma once
 
+namespace Samodiva
+{
+
 template<size_t Bytes>
 class LinearAllocator
 {
@@ -86,3 +89,5 @@ public:
 private:
 	thread_local static LinearAllocator<Capacity> tls_Alloc;
 };
+
+}
