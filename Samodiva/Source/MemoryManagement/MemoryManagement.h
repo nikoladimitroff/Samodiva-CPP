@@ -126,19 +126,19 @@ namespace Samodiva
 		return TempSharedPtr<T>(ptr);
 	}
 
-
 	class DefaultAllocator
 	{
 	public:
 		void Initialize()
 		{}
-		inline void* Malloc(size_t size)
+		inline void* Malloc(size_t size, unsigned alignment)
 		{
-			return g_Allocator->Malloc(size, 0);
+			auto ptr = g_Allocator->Malloc(size, alignment);
+			return ptr;
 		}
 		inline void Free(void* ptr)
 		{
-			return g_Allocator->Free(ptr);
+			g_Allocator->Free(ptr);
 		}
 		inline void* Realloc(void* ptr, size_t newSize)
 		{

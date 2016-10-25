@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <Windows.h>
 
 #include <Samodiva/World.h>
 #include <Samodiva/Agent.h>
@@ -36,11 +37,22 @@ class MallocAllocator : public Samodiva::IAllocator
 public:
 	virtual void* Malloc(size_t size, unsigned alignment)
 	{
-		return std::malloc(size);
+		auto ptr = std::malloc(size);
+		auto Log = &::OutputDebugStringA;
+		Log("Allocating ");
+		Log(std::to_string(size).c_str());
+		Log(" bytes at address ");
+		Log(std::to_string((unsigned long)ptr).c_str());
+		Log("\r\n");
+		return ptr;
 	}
 	virtual void Free(void* ptr)
 	{
 		std::free(ptr);
+		auto Log = &::OutputDebugStringA;
+		Log("Freeing ");
+		Log(std::to_string((unsigned long)ptr).c_str());
+		Log("\r\n");
 	}
 	virtual void* Realloc(void* ptr, size_t newSize)
 	{

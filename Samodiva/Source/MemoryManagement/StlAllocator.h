@@ -31,7 +31,7 @@ struct StlAllocatorTemplate
 	}
 	T* allocate(std::size_t n)
 	{
-		return reinterpret_cast<T*>(m_Impl.Malloc(n));
+		return reinterpret_cast<T*>(m_Impl.Malloc(n * sizeof(T), alignof(T)));
 	}
 	void deallocate(T* p, std::size_t)
 	{

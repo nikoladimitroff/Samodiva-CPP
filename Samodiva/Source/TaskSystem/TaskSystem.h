@@ -78,7 +78,7 @@ template<ChannelId ChannelCount>
 class TaskSystem
 {
 public:
-	TaskSystem::TaskSystem()
+	__declspec(noinline) TaskSystem::TaskSystem()
 	{
 		SpawnThreads();
 	}
@@ -106,8 +106,9 @@ private:
 	std::array<TaskChannel, ChannelCount> m_Channels;
 
 	// Spawn a thread for each channel as of now
-	void SpawnThreads()
+	__declspec(noinline) void SpawnThreads()
 	{
+		m_ThreadPool.reserve(m_Channels.size());
 		for (auto i = 0u; i < m_Channels.size(); ++i)
 		{
 			std::thread workerThread(&ThreadMain, this, i);

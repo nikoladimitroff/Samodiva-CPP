@@ -12,7 +12,7 @@ public:
 	{}
 	void Initialize()
 	{}
-	inline void* Malloc(size_t size)
+	inline void* Malloc(size_t size, unsigned/*alignment*/)
 	{
 		auto ptr = m_Marker;
 		m_Marker += size;
@@ -70,9 +70,9 @@ class ThreadLocalLinearAllocator
 {
 public:
 	inline void Initialize() {}
-	inline void* Malloc(size_t size)
+	inline void* Malloc(size_t size, unsigned alignment)
 	{
-		return tls_Alloc.Malloc(size);
+		return tls_Alloc.Malloc(size, alignment);
 	}
 	inline void Free(void* ptr)
 	{

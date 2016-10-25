@@ -12,5 +12,5 @@ extern Samodiva::ILogHandler* g_LogHandler;
 	{ \
 		TempString buffer(sizeof(Message) * 2, '\0'); \
 		sprintf_s(&buffer[0], sizeof(Message) * 2, Message, __VA_ARGS__); \
-		g_LogHandler->WriteLog(Samodiva::ILogHandler::LS_##Severity, buffer.c_str()); \
+		g_LogHandler->WriteLog(Samodiva::ILogHandler::LS_Info, buffer.c_str()); \
 	}
