@@ -48,8 +48,8 @@ namespace Samodiva
 			BayesianNetwork Distribution;
 			Action PreviousActions[EMOTIONAL_COMPONENT_MAX_TRACKED_ACTIONS];
 		};
-		StdVector<InteractingAgent> m_OtherAgents;
-		StdVector<ExpectedAction> m_ExpectedActions;
+		stl::vector<InteractingAgent> m_OtherAgents;
+		stl::vector<ExpectedAction> m_ExpectedActions;
 
 		void CheckExpectations(const Action& action);
 	};

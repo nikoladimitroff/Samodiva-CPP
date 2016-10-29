@@ -8,7 +8,7 @@ template<class T>
 class BlockingQueue
 {
 private:
-	StdDeque<T> m_Queue;
+	stl::deque<T> m_Queue;
 	std::condition_variable m_Condition;
 	std::mutex m_Mutex;
 public:

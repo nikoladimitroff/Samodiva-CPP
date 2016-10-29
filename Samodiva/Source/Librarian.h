@@ -24,8 +24,8 @@ namespace Samodiva
 		stl::string GetActionName(unsigned actionId) const;
 
 	private:
-		stl::vector<stl::pair<stl::string, Action>> m_ActionLibrary;
-		stl::vector<stl::pair<stl::string, AgentDescription>> m_AgentLibrary;
+		stl::vector<std::pair<stl::string, Action>> m_ActionLibrary;
+		stl::vector<std::pair<stl::string, AgentDescription>> m_AgentLibrary;
 
 		void LoadAction(const JSON& data);
 		void LoadAgent(const JSON& data);

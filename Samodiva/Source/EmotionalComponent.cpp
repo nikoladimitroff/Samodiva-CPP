@@ -110,7 +110,7 @@ namespace Samodiva
 	void EmotionalComponent::Notify(const Action& action)
 	{
 		m_CurrentForce += action.Effect;
-		auto agent = stl::find_if(m_OtherAgents.begin(), m_OtherAgents.end(), [&action](const auto& agent)
+		auto agent = std::find_if(m_OtherAgents.begin(), m_OtherAgents.end(), [&action](const auto& agent)
 		{
 			return agent.Id == action.SourceAgentId;
 		});
@@ -150,7 +150,7 @@ namespace Samodiva
 		// Check if it's suprising
 		if (action.Effect.LengthSquared() && std::find(m_ExpectedActions.cbegin(), m_ExpectedActions.cend(), action) != m_ExpectedActions.cend())
 		{
-			stl::cout << "SUPRISE! Action " << action.Id << " was unexpected" << stl::endl;
+			std::cout << "SUPRISE! Action " << action.Id << " was unexpected" << std::endl;
 			m_CurrentForce += VectorPAD(0, sqrt(action.Effect.LengthSquared()), 0);
 		}
 	}

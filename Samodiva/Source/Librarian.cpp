@@ -33,14 +33,14 @@ namespace
 
 void Librarian::LoadFile(const char* path)
 {
-	stl::ifstream file(path);
+	std::ifstream file(path);
 	if (!file)
 	{
 		// TODO: LOG ERROR
 		assert(false);
 	}
 	auto parsedData = JSON::parse(file);
-	auto fileType = parsedData["header"].get<stl::string>();
+	auto fileType = parsedData["header"].get<std::string>(); // the json library only supports std
 	if (fileType.compare("Action Library") == 0)
 	{
 		LoadAction(parsedData);
@@ -56,14 +56,14 @@ void Librarian::LoadAction(const JSON& data)
 	auto& actions = data["actions"];
 	for (auto& actionDescription : actions)
 	{
-		auto name = actionDescription["name"].get<stl::string>();
+		stl::string name(actionDescription["name"].get<std::string>().c_str()); // the json library only supports std
 		VectorPAD effect(actionDescription["effect"][0],
 			actionDescription["effect"][1],
 			actionDescription["effect"][2]);
 		Action actionData;
 		actionData.Id = static_cast<unsigned>(m_ActionLibrary.size());
 		actionData.Effect = effect;
-		m_ActionLibrary.push_back(stl::make_pair(name, actionData));
+		m_ActionLibrary.push_back(std::make_pair(std::move(name), actionData));
 	}
 }
 
@@ -73,9 +73,9 @@ void Librarian::LoadAgent(const JSON & data)
 	AgentDescription agentDescription = { 0 };
 	for (auto& actionDescription : actions)
 	{
-		auto name = actionDescription["name"].get<stl::string>();
+		stl::string name(actionDescription["name"].get<std::string>().c_str());
 		ActionDescription description = { 0 };
-		auto position = stl::find_if(m_ActionLibrary.begin(), m_ActionLibrary.end(), [&name](decltype(m_ActionLibrary)::value_type pair)
+		auto position = std::find_if(m_ActionLibrary.begin(), m_ActionLibrary.end(), [&name](decltype(m_ActionLibrary)::value_type pair)
 		{
 			return pair.first == name;
 		});
@@ -84,8 +84,8 @@ void Librarian::LoadAgent(const JSON & data)
 		std::fill(&description.DependentActions[0], &description.DependentActions[0] + CPD_MAX_ACTIONS, static_cast<unsigned>(-1));
 		for (auto& dependentAction : actionDescription["prior"])
 		{
-			auto actionName = dependentAction.get<stl::string>();
-			auto actionPosition = stl::find_if(m_ActionLibrary.begin(), m_ActionLibrary.end(), [&actionName](decltype(m_ActionLibrary)::value_type pair)
+			stl::string actionName(dependentAction.get<std::string>().c_str());
+			auto actionPosition = std::find_if(m_ActionLibrary.begin(), m_ActionLibrary.end(), [&actionName](decltype(m_ActionLibrary)::value_type pair)
 			{
 				return pair.first == actionName;
 			});
@@ -94,8 +94,8 @@ void Librarian::LoadAgent(const JSON & data)
 		}
 		agentDescription.Actions[agentDescription.ActionCount++] = description;
 	}
-	auto agentClass = data["class"].get<stl::string>();
-	m_AgentLibrary.push_back(stl::make_pair(agentClass, agentDescription));
+	stl::string agentClass(data["class"].get<std::string>().c_str());
+	m_AgentLibrary.push_back(std::make_pair(std::move(agentClass), agentDescription));
 
 }
 
@@ -110,9 +110,9 @@ void Librarian::LoadDirectory(const char* path)
 	{
 		do
 		{
-			if (stl::strcmp(data.cFileName, ".") * stl::strcmp(data.cFileName, "..") != 0)
+			if (std::strcmp(data.cFileName, ".") * std::strcmp(data.cFileName, "..") != 0)
 			{
-				stl::string fullPath(path, stl::strlen(path) - 1);
+				stl::string fullPath(path, std::strlen(path) - 1);
 				fullPath.append(data.cFileName);
 				LoadFile(fullPath.c_str());
 			}
@@ -126,7 +126,7 @@ void Librarian::LoadDirectory(const char* path)
 Action Librarian::InstantiateAction(const char* actionName) const
 {
 	stl::string name(actionName);
-	auto position = stl::find_if(m_ActionLibrary.begin(), m_ActionLibrary.end(), [&name](decltype(m_ActionLibrary)::value_type pair)
+	auto position = std::find_if(m_ActionLibrary.begin(), m_ActionLibrary.end(), [&name](decltype(m_ActionLibrary)::value_type pair)
 	{
 		return pair.first == name;
 	});
@@ -140,7 +140,7 @@ Action Librarian::InstantiateAction(const char* actionName) const
 
 Action Librarian::InstantiateAction(unsigned id) const
 {
-	auto position = stl::find_if(m_ActionLibrary.begin(), m_ActionLibrary.end(), [id](decltype(m_ActionLibrary)::value_type pair)
+	auto position = std::find_if(m_ActionLibrary.begin(), m_ActionLibrary.end(), [id](decltype(m_ActionLibrary)::value_type pair)
 	{
 		return pair.second.Id == id;
 	});
@@ -155,7 +155,7 @@ Action Librarian::InstantiateAction(unsigned id) const
 AgentDescription Librarian::InstantiateAgentDescription(const char* agentName) const
 {
 	stl::string name(agentName);
-	auto position = stl::find_if(m_AgentLibrary.cbegin(), m_AgentLibrary.cend(), [&name](decltype(m_AgentLibrary)::value_type pair)
+	auto position = std::find_if(m_AgentLibrary.cbegin(), m_AgentLibrary.cend(), [&name](decltype(m_AgentLibrary)::value_type pair)
 	{
 		return pair.first == name;
 	});
@@ -168,7 +168,7 @@ AgentDescription Librarian::InstantiateAgentDescription(const char* agentName) c
 
 stl::string Librarian::GetActionName(unsigned actionId) const
 {
-	auto position = stl::find_if(m_ActionLibrary.begin(), m_ActionLibrary.end(), [actionId](decltype(m_ActionLibrary)::value_type pair)
+	auto position = std::find_if(m_ActionLibrary.begin(), m_ActionLibrary.end(), [actionId](decltype(m_ActionLibrary)::value_type pair)
 	{
 		return pair.second.Id == actionId;
 	});
