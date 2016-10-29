@@ -31,6 +31,9 @@
     <Filter Include="Header Files\Private\MemoryManagement">
       <UniqueIdentifier>{7a40d52d-0147-4f15-b56a-467fef38c550}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Tests">
+      <UniqueIdentifier>{31949f06-bc99-4c21-8393-8513cfca3d4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WorldImpl.h">
@@ -112,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="Source\MemoryManagement\MemoryManagement.cpp">
       <Filter>Source Files\MemoryManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tests\TestMain.cpp">
+      <Filter>Source Files\Tests</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
