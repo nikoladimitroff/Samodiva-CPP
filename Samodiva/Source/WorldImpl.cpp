@@ -17,14 +17,14 @@ inline int GetThreadId()
 void WorldImpl::Initialize(const WorldSettings&)
 {
 	TaskSystem<3> taskSystem;
-	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_LOG(Info, "dulila @ %d \r\n", GetThreadId()); });
-	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_LOG(Trace, "dulila2 @ %d \r\n", GetThreadId()); });
-	taskSystem.SpawnTask("Foodida1", 1, []() { SAMODIVA_LOG(Info, "Foodida @ %d \r\n", GetThreadId()); });
-	taskSystem.SpawnTask("Dulila1", 1, []() { SAMODIVA_LOG(Error, "dulila3 @ %d \r\n", GetThreadId()); });
-	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_LOG(Info, "dulila4 @ %d \r\n", GetThreadId()); });
-	taskSystem.SpawnTask("Dulila2", 2, []() { SAMODIVA_LOG(Warning, "dulila5 @ %d \r\n", GetThreadId()); });
-	taskSystem.SpawnTask("Dulila2", 2, []() { SAMODIVA_LOG(Debug, "dulila6 @ %d \r\n", GetThreadId()); });
-	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_LOG(Info, "dulila7 @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_FORMAT_LOG(Info, "dulila @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_FORMAT_LOG(Trace, "dulila2 @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Foodida1", 1, []() { SAMODIVA_FORMAT_LOG(Info, "Foodida @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila1", 1, []() { SAMODIVA_FORMAT_LOG(Error, "dulila3 @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_FORMAT_LOG(Info, "dulila4 @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila2", 2, []() { SAMODIVA_FORMAT_LOG(Warning, "dulila5 @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila2", 2, []() { SAMODIVA_FORMAT_LOG(Debug, "dulila6 @ %d \r\n", GetThreadId()); });
+	taskSystem.SpawnTask("Dulila0", 0, []() { SAMODIVA_FORMAT_LOG(Info, "dulila7 @ %d \r\n", GetThreadId()); });
 }
 
 Agent* WorldImpl::CreateAgent(const char* agentClass)

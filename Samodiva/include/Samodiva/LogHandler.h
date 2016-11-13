@@ -12,7 +12,8 @@ namespace Samodiva
 			LS_Trace,
 			LS_Info,
 			LS_Warning,
-			LS_Error
+			LS_Error,
+			LS_Fatal
 		};
 		virtual void WriteLog(LogSeverity severity, const char* message) = 0;
 	};

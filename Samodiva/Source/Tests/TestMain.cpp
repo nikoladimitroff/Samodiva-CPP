@@ -1,3 +1,4 @@
+#ifdef  SAMODIVA_TEST_BUILD
 #define DOCTEST_CONFIG_IMPLEMENT
 #define DOCTEST_CONFIG_NO_EXCEPTIONS
 #include <doctest/doctest.h>
@@ -33,3 +34,5 @@ SCENARIO("making sure tests work")
 }
 
 TEST_SUITE_END();
+
+#endif // SAMODIVA_TEST_BUILD

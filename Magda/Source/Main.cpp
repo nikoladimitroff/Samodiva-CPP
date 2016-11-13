@@ -21,6 +21,7 @@ public:
 		case Samodiva::ILogHandler::LS_Info: return "Info";
 		case Samodiva::ILogHandler::LS_Warning: return "Warning";
 		case Samodiva::ILogHandler::LS_Error: return "Error";
+		case Samodiva::ILogHandler::LS_Fatal: return "Fatal";
 		default:
 			return "Unknown severity";
 		}

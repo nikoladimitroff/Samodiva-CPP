@@ -151,7 +151,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\..\ThirdParty</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>SAMODIVA_EXPORTS;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SAMODIVA_EXPORTS;SAMODIVA_TEST_BUILD;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
@@ -236,6 +236,7 @@
     <ClInclude Include="include\Samodiva\LogHandler.h" />
     <ClInclude Include="include\Samodiva\World.h" />
     <ClInclude Include="Source\AgentImpl.h" />
+    <ClInclude Include="Source\Assertions.h" />
     <ClInclude Include="Source\BayesianNetwork.h" />
     <ClInclude Include="Source\Declarations.h" />
     <ClInclude Include="Source\EmotionalComponent.h" />

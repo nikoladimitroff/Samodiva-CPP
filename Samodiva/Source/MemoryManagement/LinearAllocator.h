@@ -14,6 +14,7 @@ public:
 	{}
 	inline void* Malloc(size_t size, unsigned/*alignment*/)
 	{
+		ASSERT_FATAL(m_Marker + size < &m_Buffer[Bytes]);
 		auto ptr = m_Marker;
 		m_Marker += size;
 		return ptr;

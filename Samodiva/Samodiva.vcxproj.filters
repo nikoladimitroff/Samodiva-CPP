@@ -96,6 +96,9 @@
     <ClInclude Include="Source\MemoryManagement\StlAllocator.h">
       <Filter>Header Files\Private\MemoryManagement</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Assertions.h">
+      <Filter>Header Files\Private</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\WorldImpl.cpp">
