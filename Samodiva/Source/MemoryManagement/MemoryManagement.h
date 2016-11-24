@@ -103,7 +103,10 @@ namespace Samodiva
 
 		template<typename T>
 		using vector = std::vector<T, StlAllocatorTemplate<TempAllocator, T>>;
+		template<typename T>
+		using small_vector = vector<T>;
 		using string = std::basic_string<char, std::char_traits<char>, StlAllocatorTemplate<TempAllocator, char>>;
+		using small_string = string;
 		template<typename T>
 		using unique_ptr = std::unique_ptr<T, TempDeleter<T>>;
 		template<typename T>
@@ -188,8 +191,11 @@ namespace Samodiva
 		template<typename T>
 		using vector = std::vector<T, StlAllocatorTemplate<DefaultAllocator, T>>;
 		template<typename T>
+		using small_vector = vector<T>;
+		template<typename T>
 		using deque = std::deque<T, StlAllocatorTemplate<DefaultAllocator, T>>;
 		using string = std::basic_string<char, std::char_traits<char>, StlAllocatorTemplate<DefaultAllocator, char>>;
+		using small_string = string;
 		template<typename T>
 		using unique_ptr = std::unique_ptr<T, StdDeleter<T>>;
 		template<class T>
