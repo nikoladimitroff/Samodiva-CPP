@@ -1,7 +1,7 @@
 #include "precompiled.h"
 #include "EmotionalComponent.h"
 
-#include <Samodiva/Agent.h>
+#include "AgentImpl.h"
 #include "WorldImpl.h"
 #include "MathHelpers.h"
 

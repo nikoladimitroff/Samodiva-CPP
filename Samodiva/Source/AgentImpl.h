@@ -16,7 +16,7 @@ public:
 	virtual unsigned long GetId() const override;
 	virtual const char* GetClass() const override;
 
-	virtual void Update(float delta) override;
+	void Update(float delta);
 	// Emotional interface
 	virtual Mood GetMood() const override;
 	virtual void Notify(const Action& action) override;

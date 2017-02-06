@@ -7,6 +7,7 @@
 
 namespace Samodiva
 {
+class AgentImpl;
 
 class WorldImpl : public World
 {
@@ -27,13 +28,15 @@ public:
 	virtual void LoadFile(const char* path) override;
 	virtual void LoadDirectory(const char* path) override;
 
+	virtual void Update(float delta) override;
+
 	inline static WorldImpl* GetInstance() { return s_Instance; }
-	Agent* FindAgent(unsigned id) { return m_Agents[id]; } // TODO: handle nonexisting
+	AgentImpl* FindAgent(unsigned id) { return m_Agents[id]; } // TODO: handle nonexisting
 	stl::string GetActionName(unsigned id) { return m_Librarian.GetActionName(id); }
 
 private:
 	Librarian m_Librarian;
-	std::unordered_map<unsigned, Agent*> m_Agents;
+	std::unordered_map<unsigned, AgentImpl*> m_Agents;
 
 	static WorldImpl* s_Instance;
 };

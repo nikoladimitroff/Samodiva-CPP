@@ -98,7 +98,7 @@ int main()
 	int counter = 0;
 	do
 	{
-		user->Update(1);
+		world->Update(1);
 		std::cout << MoodToName(user->GetMood()) << std::endl;
 
 		std::cout << "Enter action: ";

@@ -63,6 +63,14 @@ void WorldImpl::LoadDirectory(const char* path)
 	m_Librarian.LoadDirectory(path);
 }
 
+void WorldImpl::Update(float delta)
+{
+	for (auto& agents : m_Agents)
+	{
+		agents.second->Update(delta);
+	}
+}
+
 }
 
 Samodiva::World* CreateSamodivaWorld(const Samodiva::WorldSettings& settings)

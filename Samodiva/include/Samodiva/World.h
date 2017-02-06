@@ -31,6 +31,8 @@ public:
 	virtual void LoadFile(const char* path) = 0;
 	virtual void LoadDirectory(const char* path) = 0;
 
+	virtual void Update(float delta) = 0;
+
 	virtual void Destroy() = 0;
 };
 

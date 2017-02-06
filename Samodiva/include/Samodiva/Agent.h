@@ -12,7 +12,6 @@ namespace Samodiva
 		virtual unsigned long GetId() const = 0;
 		virtual const char* GetClass() const = 0;
 
-		virtual void Update(float delta) = 0;
 		// Emotional interface
 		virtual Mood GetMood() const = 0;
 		virtual void Notify(const Action& action) = 0;
