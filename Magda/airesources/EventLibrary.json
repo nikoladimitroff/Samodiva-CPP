@@ -6,6 +6,8 @@
         {"name": "hug", "effect": [0.3, -0.3, 0] },
         {"name": "pet", "effect": [0.3, -0.3, -0.3] },
         {"name": "kiss", "effect": [0.35, 0.2, 0.2] },
-        {"name": "bore", "effect": [0.0, -0.4, 0] }
+        {"name": "bore", "effect": [0.0, -0.4, 0] },
+        {"name": "yowl", "effect": [-0.1, -0.1, -0.1] },
+        {"name": "run away", "effect": [0.1, 0.15, -0.2] }
     ]
 }

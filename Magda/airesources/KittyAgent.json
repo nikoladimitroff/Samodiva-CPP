@@ -1,6 +1,6 @@
 {
     "header": "Agent Description",
-    "class": "User",
+    "class": "Kitty",
     "actions": [
         {"name": "swing", "prior": [] },
         {"name": "hit", "prior": ["swing"] },
@@ -8,5 +8,9 @@
         {"name": "pet", "prior": [] },
         {"name": "kiss", "prior": ["hug", "pet"] },
         {"name": "bore", "prior": [] }
+    ],
+    "decisionmaking": [
+        "If self is Anxious Then yowl at player",
+        "If self is very Anxious Then run away from player"
     ]
 }

@@ -34,6 +34,12 @@
     <Filter Include="Source Files\Tests">
       <UniqueIdentifier>{31949f06-bc99-4c21-8393-8513cfca3d4d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Private\FuzzyLogic">
+      <UniqueIdentifier>{6f12e6fb-2059-45d6-ac1c-83aed89825a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FuzzyLogic">
+      <UniqueIdentifier>{a7644286-8173-4b2f-a4c7-dd20852018b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\WorldImpl.h">
@@ -99,6 +105,9 @@
     <ClInclude Include="Source\Assertions.h">
       <Filter>Header Files\Private</Filter>
     </ClInclude>
+    <ClInclude Include="Source\FuzzyLogic\Fuzzifier.h">
+      <Filter>Header Files\Private\FuzzyLogic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\WorldImpl.cpp">
@@ -121,6 +130,9 @@
     </ClCompile>
     <ClCompile Include="Source\Tests\TestMain.cpp">
       <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FuzzyLogic\Fuzzifier.cpp">
+      <Filter>Source Files\FuzzyLogic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

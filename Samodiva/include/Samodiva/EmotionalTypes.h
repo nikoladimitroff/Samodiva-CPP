@@ -183,6 +183,9 @@ namespace Samodiva
 
 #define CPD_MAX_ACTIONS 16u
 #define MAX_AGENT_ACTIONS 16u
+#define MAX_QUANTITY_MODIFIERS 4u
+#define MAX_ANTECEDENTS 4u
+#define MAX_DECISION_RULES 16u
 	struct ActionDescription
 	{
 		unsigned Id;
@@ -190,9 +193,49 @@ namespace Samodiva
 		size_t DependentActionsCount;
 	};
 
+	// This class is capable of representing a single fuzzy decision rule
+	// of the type
+	// If self is not very Bored or midly Dociled Then Listen to player
+	// It also is incapable of representing priorities (no support for grouping conjectives)
+	// Should be scrapped and reworked
+	struct DecisionRule
+	{
+		enum class Target
+		{
+			Self,
+			Player
+		};
+		enum class QuantityModifier
+		{
+			None,
+			Not,
+			Almost,
+			Mildly,
+			Very,
+		};
+		enum class Joint
+		{
+			None,
+			And,
+			Or
+		};
+		struct Antecedent
+		{
+			Target TargetAgent;
+			QuantityModifier Modifiers[MAX_QUANTITY_MODIFIERS];
+			Joint NextAntecedentJoint;
+			Mood Emotion;
+		};
+		Antecedent Antecedents[MAX_ANTECEDENTS];
+		unsigned ConsequentActionId;
+		Target ConsequentActionTarget;
+	};
+
 	struct AgentDescription
 	{
 		ActionDescription Actions[MAX_AGENT_ACTIONS];
 		size_t ActionCount;
+		DecisionRule DecisionRules[MAX_DECISION_RULES];
+		size_t DecisionRulesCount;
 	};
 }

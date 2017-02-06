@@ -90,34 +90,34 @@ int main()
 	world_ptr world(CreateSamodivaWorld(settings));
 	world->LoadDirectory("airesources\\*");
 
-	agent_ptr agent(world->CreateAgent("Test"));
+	//agent_ptr agent(world->CreateAgent("Test"));
 
-	agent_ptr user(world->CreateAgent("User"));
+	agent_ptr user(world->CreateAgent("Kitty"));
 
 	bool shouldExit = false;
 	int counter = 0;
 	do
 	{
-		agent->Update(1);
-		//std::cout << MoodToName(agent->GetMood()) << std::endl;
+		user->Update(1);
+		std::cout << MoodToName(user->GetMood()) << std::endl;
 
-		//std::cout << "Enter action: ";
-		//std::string actionName;
-		//std::cin >> actionName;
-		//if (actionName == "quit")
-		//{
-		//	shouldExit = true;
-		//}
-		//if (actionName == "skip")
-		//{
-		//	continue;
-		//}
-		//else
+		std::cout << "Enter action: ";
+		std::string actionName;
+		std::cin >> actionName;
+		if (actionName == "quit")
 		{
-			Samodiva::Action action = world->InstantiateAction("pet");
+			shouldExit = true;
+		}
+		if (actionName == "skip")
+		{
+			continue;
+		}
+		else
+		{
+			Samodiva::Action action = world->InstantiateAction(actionName.c_str());
 			action.SourceAgentId = user->GetId();
-			action.TargetAgentId = agent->GetId();
-			agent->Notify(action);
+			action.TargetAgentId = user->GetId();
+			user->Notify(action);
 		}
 		counter++;
 		shouldExit = counter == 500;

@@ -246,6 +246,7 @@
     <ClInclude Include="Source\BayesianNetwork.h" />
     <ClInclude Include="Source\Declarations.h" />
     <ClInclude Include="Source\EmotionalComponent.h" />
+    <ClInclude Include="Source\FuzzyLogic\Fuzzifier.h" />
     <ClInclude Include="Source\Librarian.h" />
     <ClInclude Include="Source\Logging.h" />
     <ClInclude Include="Source\MathHelpers.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="Source\AgentImpl.cpp" />
     <ClCompile Include="Source\BayesianNetwork.cpp" />
     <ClCompile Include="Source\EmotionalComponent.cpp" />
+    <ClCompile Include="Source\FuzzyLogic\Fuzzifier.cpp" />
     <ClCompile Include="Source\Librarian.cpp" />
     <ClCompile Include="Source\MemoryManagement\MemoryManagement.cpp" />
     <ClCompile Include="Source\Tests\TestMain.cpp" />

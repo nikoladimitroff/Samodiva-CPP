@@ -5,6 +5,7 @@
 #include <cassert>
 #include <iterator>
 #include <fstream>
+#include <regex>
 
 #ifdef SAMODIVA_PLATFORM_WIN
 #include <Windows.h>
@@ -67,10 +68,37 @@ void Librarian::LoadAction(const JSON& data)
 	}
 }
 
+
+Samodiva::Mood NameToMood(const tmp::string& emotionName)
+{
+	if (emotionName == "Exuberant") return Samodiva::Mood::Exuberant;
+	if (emotionName == "Dependent") return Samodiva::Mood::Dependent;
+	if (emotionName == "Relaxed") return Samodiva::Mood::Relaxed;
+	if (emotionName == "Docile") return Samodiva::Mood::Docile;
+	if (emotionName == "Enraged") return Samodiva::Mood::Enraged;
+	if (emotionName == "Anxious") return Samodiva::Mood::Anxious;
+	if (emotionName == "Disdainful") return Samodiva::Mood::Disdainful;
+	if (emotionName == "Bored") return Samodiva::Mood::Bored;
+	assert(false);
+	return Samodiva::Mood::Exuberant;
+}
+
+DecisionRule::QuantityModifier NameToQuantityModifier(const tmp::string& name)
+{
+	if (name == "not") return DecisionRule::QuantityModifier::Not;
+	if (name == "almost") return DecisionRule::QuantityModifier::Almost;
+	if (name == "mildly") return DecisionRule::QuantityModifier::Mildly;
+	if (name == "very") return DecisionRule::QuantityModifier::Very;
+	assert(false);
+	return DecisionRule::QuantityModifier::None;
+}
+
+
 void Librarian::LoadAgent(const JSON & data)
 {
-	auto& actions = data["actions"];
 	AgentDescription agentDescription = { 0 };
+	// Parse actions
+	auto& actions = data["actions"];
 	for (auto& actionDescription : actions)
 	{
 		stl::string name(actionDescription["name"].get<std::string>().c_str());
@@ -93,6 +121,41 @@ void Librarian::LoadAgent(const JSON & data)
 			description.DependentActions[description.DependentActionsCount++] = actionPosition->second.Id;
 		}
 		agentDescription.Actions[agentDescription.ActionCount++] = description;
+	}
+	// Parse decision making rules; swap to tmp::strings
+	auto& rules = data["decisionmaking"];
+	std::regex ruleRegex("If (self|player) is ((?:(?:not|almost|midly|very) ){0,4})(Exuberant|Dependent|Relaxed|Docile|Enraged|Anxious|Disdainful|Bored) Then (\\w| )*? (is|from|at|to) (self|player)");
+	for (auto& ruleIterator : rules)
+	{
+		DecisionRule rule;
+		int ruleCount = 0;
+		std::smatch match;
+		auto ruleAsText = ruleIterator.get<std::string>();
+		std::regex_match(ruleAsText, match, ruleRegex);
+		DecisionRule::Antecedent antecedent;
+		antecedent.TargetAgent = DecisionRule::Target::Self;
+		assert(match[1].compare("self") == 0);
+		auto modifiers = match[2].str();
+		if (modifiers.size() != 0) modifiers.pop_back(); // the whitespace at the end
+		int modifiersCount = 0;
+		for (size_t i = 0; modifiers.size() != 0 && i != std::string::npos; i = modifiers.find(' ', i + 1))
+		{
+			tmp::string modifier(modifiers.substr(i, modifiers.find(' ', i + 1)).c_str());
+			antecedent.Modifiers[modifiersCount++] = NameToQuantityModifier(modifier);
+		}
+		antecedent.Emotion = NameToMood(tmp::string(match[3].str().c_str()));
+		antecedent.NextAntecedentJoint = DecisionRule::Joint::None;
+		rule.Antecedents[ruleCount++] = antecedent;
+
+		auto actionName = match[4].str();
+		auto actionPosition = std::find_if(m_ActionLibrary.begin(), m_ActionLibrary.end(), [&actionName](decltype(m_ActionLibrary)::value_type pair)
+		{
+			return pair.first == actionName.c_str() == 0;
+		});
+		assert(actionPosition != m_ActionLibrary.end());
+		rule.ConsequentActionId = actionPosition->second.Id;
+		rule.ConsequentActionTarget = DecisionRule::Target::Player;
+		agentDescription.DecisionRules[agentDescription.DecisionRulesCount++] = rule;
 	}
 	stl::string agentClass(data["class"].get<std::string>().c_str());
 	m_AgentLibrary.push_back(std::make_pair(std::move(agentClass), agentDescription));

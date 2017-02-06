@@ -1,8 +1,0 @@
-{
-    "header": "Agent Description",
-    "class": "Test",
-    "actions": [
-        {"name": "swing", "prior": [] },
-        {"name": "hit", "prior": ["swing"] }
-    ]
-}
